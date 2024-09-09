@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<root>
+	<points>
+		<title>Points</title>
+		<value>10</value>
+	</points>
+	<num_of_channels>
+		<title>Number of Channels</title>
+		<value>8</value>
+	</num_of_channels>
+	<times>
+		<title>Times</title>
+		<value>[1,2,3,4,5,6]</value>
+	</times>
+	<sample_freq>
+		<title>Sample Frequency</title>
+		<value>44100</value>
+	</sample_freq>
+</root>
