@@ -14,6 +14,7 @@
 #include <tuple>
 #include <iomanip>
 #include <vector>
+#include <algorithm>
 
 
 /* Headers for Windows */
@@ -160,7 +161,7 @@ default:
 return rv;
 } //func
 
-typedef std::tuple<int32_t, int32_t, string, int32_t> Parse_data;
+typedef std::tuple<string, int32_t, string, int32_t> Parse_data;
 
 Parse_data parse_xml_function (const char* file_name)
 {
@@ -173,7 +174,7 @@ Parse_data parse_xml_function (const char* file_name)
 
     pugi::xml_node root = doc.child("root");
 
-    int32_t points = root.child("points").child("value").text().as_int();
+    string points = root.child("points").child("value").text().as_string();
     int32_t num_of_channels = root.child("num_of_channels").child("value").text().as_int();
     string times = root.child("times").child("value").text().as_string();
     int32_t sample_freq = root.child("sample_freq").child("value").text().as_int();
@@ -181,13 +182,13 @@ Parse_data parse_xml_function (const char* file_name)
     return std::make_tuple(points, num_of_channels, times, sample_freq);
 }
 
-std::vector<int32_t> string_to_vector (const string& times)
+std::vector<uint32_t> string_to_vector (const string& times)
 {
     std::string input = "[1,2,3,4,5,6]";
 
     input = input.substr(1, input.length() - 2);
 
-    std::vector<int32_t> vec_times;
+    std::vector<uint32_t> vec_times;
     std::stringstream ss(input);
     std::string token;
 
@@ -206,50 +207,50 @@ std::vector<PS4000A_CHANNEL> create_channel(const int32_t& num_of_channels)
             case 0:
                {
 
-                PS4000A_CHANNEL test_channel{PS4000A_CHANNEL_A};
-                channels.push_back(test_channel);
+                PS4000A_CHANNEL trigger_channel{PS4000A_CHANNEL_A};
+                channels.push_back(trigger_channel);
                 break;
                 }
             case 1:
                 {
-                    PS4000A_CHANNEL noise2_channel{PS4000A_CHANNEL_B};
-                channels.push_back(noise2_channel);
+                    PS4000A_CHANNEL data2_channel{PS4000A_CHANNEL_B};
+                channels.push_back(data2_channel);
                 break;
                 }
             case 2:
                 {
-                    PS4000A_CHANNEL noise3_channel{PS4000A_CHANNEL_C};
-                channels.push_back(noise3_channel);
+                    PS4000A_CHANNEL data3_channel{PS4000A_CHANNEL_C};
+                channels.push_back(data3_channel);
                 break;
                 }
             case 3:
                 {
-                    PS4000A_CHANNEL noise4_channel{PS4000A_CHANNEL_D};
-                channels.push_back(noise4_channel);
+                    PS4000A_CHANNEL data4_channel{PS4000A_CHANNEL_D};
+                channels.push_back(data4_channel);
                 break;
                 }
             case 4:
                 {
-                    PS4000A_CHANNEL noise5_channel{PS4000A_CHANNEL_E};
-                channels.push_back(noise5_channel);
+                    PS4000A_CHANNEL data5_channel{PS4000A_CHANNEL_E};
+                channels.push_back(data5_channel);
                 break;
                 }
             case 5:
                 {
-                    PS4000A_CHANNEL noise6_channel{PS4000A_CHANNEL_F};
-                channels.push_back(noise6_channel);
+                    PS4000A_CHANNEL data6_channel{PS4000A_CHANNEL_F};
+                channels.push_back(data6_channel);
                 break;
                 }
             case 6:
                 {
-                    PS4000A_CHANNEL noise7_channel{PS4000A_CHANNEL_G};
-                channels.push_back(noise7_channel);
+                    PS4000A_CHANNEL data7_channel{PS4000A_CHANNEL_G};
+                channels.push_back(data7_channel);
                 break;
                 }
             case 7:
                 {
-                    PS4000A_CHANNEL noise8_channel{PS4000A_CHANNEL_H};
-                channels.push_back(noise8_channel);
+                    PS4000A_CHANNEL data8_channel{PS4000A_CHANNEL_H};
+                channels.push_back(data8_channel);
                 break;
                 }
         }
@@ -274,7 +275,8 @@ int main()
 const auto& data_set = parse_xml_function("file.xml");
 const auto& times = string_to_vector(std::get<2>(data_set));
 
-const uint32_t POINTS_VALUE = std::get<0>(data_set);
+auto points_vec = string_to_vector(std::get<0>(data_set));
+const int32_t POINTS_VALUE = *(std::max_element(times.begin(), times.end()));
 const int32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
 const int32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
 
@@ -307,8 +309,9 @@ cout << "\n" << "rs = "<< rs << "\n";
 PS4000A_CHANNEL test_channel {PS4000A_CHANNEL_A} ;
 
 int16_t enabled {true};
+
 PS4000A_COUPLING type_AC  {PS4000A_AC};
-//PS4000A_COUPLING type_DC {PS4000A_DC};
+PS4000A_COUPLING type_DC {PS4000A_DC};
 
 //set Voltage ranges
 
@@ -328,25 +331,10 @@ PS4000A_COUPLING type_AC  {PS4000A_AC};
 12 PICO_X1_PROBE_100V ±100 V
 13 PICO_X1_PROBE_200V ±200 V
 */
-PICO_CONNECT_PROBE_RANGE test_range {PICO_X1_PROBE_500MV};
+
+PICO_CONNECT_PROBE_RANGE test_range {PICO_X1_PROBE_5V};
 
 float analogOffset  {0};
-
-
-
-
-/*
-cout << "////////////////Register your probe interaction//////////////"<< endl<< endl;
-ps4000aProbeInteractions callback;
-
-r =  ps4000aSetProbeInteractionCallback(handle, callback);
-rs = return_fun(r);
-cout << endl << "rs = "<< rs << endl;
-*/
-
-
-
-
 
 int16_t start{10};
 auto r = ps4000aFlashLed(handle, start);
@@ -376,12 +364,11 @@ cout<<"time interval (ns)"<<timeIntervalNanoseconds<<"\n";
 //ps4000aSetTriggerChannelConditions() – specify which channels to trigger on
 cout << "////////////////ps4000aSetTriggerChannelConditions()//////////////"<< endl<< endl;
 
-PS4000A_CONDITION conditions[NUMBER_OF_CHANNELS];
-for(size_t i = 0; i < NUMBER_OF_CHANNELS; i++)
-{
-    conditions[i].source = channels[i];
-    conditions[i].condition = PS4000A_CONDITION_TRUE;
-}
+PS4000A_CONDITION conditions[1];
+
+conditions[0].source = channels[0];
+conditions[0].condition = PS4000A_CONDITION_TRUE;
+
 
 PS4000A_CONDITIONS_INFO info {PS4000A_CLEAR};
 
@@ -390,8 +377,12 @@ rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
 
+
 cout << "////////////////set channel pico//////////////"<< endl<< endl;
-for (size_t i = 0; i <NUMBER_OF_CHANNELS; i++)
+
+r = ps4000aSetChannel(handle, conditions[0].source, enabled, type_DC, test_range, analogOffset);
+
+for (size_t i = 1; i <NUMBER_OF_CHANNELS; i++)
 {
     r = ps4000aSetChannel(handle, conditions[i].source, enabled, type_AC, test_range, analogOffset);
 }
@@ -399,37 +390,16 @@ for (size_t i = 0; i <NUMBER_OF_CHANNELS; i++)
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
-//r = ps4000aSetChannel(handle, noise2_channel, enabled, type_AC, noise_range, analogOffset);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-//r = ps4000aSetChannel(handle, noise3_channel, enabled, type_AC, noise_range, analogOffset);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-//r = ps4000aSetChannel(handle, noise4_channel, enabled, type_AC, noise_range, analogOffset);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-//r = ps4000aSetChannel(handle, amp_channel, enabled, type_AC, amp_range, analogOffset);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-//r = ps4000aSetChannel(handle, trig_channel, enabled, type_DC, trig_range, analogOffset);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
 
-//ps4000aSetTriggerChannelDirections() – set up signal polarities for triggering
+
 cout << "////////////////ps4000aSetTriggerChannelDirections()//////////////"<< endl<< endl;
-PS4000A_DIRECTION directions[NUMBER_OF_CHANNELS];
 
-for(size_t i = 0; i < NUMBER_OF_CHANNELS; i++)
-{
-    directions[i].channel = channels[i];
-    directions[i].direction = PS4000A_ABOVE;
-}
+PS4000A_DIRECTION directions[1];
 
-r = ps4000aSetTriggerChannelDirections(handle, directions, NUMBER_OF_CHANNELS);
+    directions[0].channel = channels[0];
+    directions[0].direction = PS4000A_ABOVE;
+
+r = ps4000aSetTriggerChannelDirections(handle, directions, 1);
 
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
@@ -438,35 +408,41 @@ cout << endl << "rs = "<< rs << endl;
 //ps4000aSetTriggerChannelProperties() – set up trigger thresholds
 cout << "////////////////ps4000aSetTriggerChannelProperties()//////////////"<< endl<< endl;
 
-PS4000A_TRIGGER_CHANNEL_PROPERTIES  channel_properties [NUMBER_OF_CHANNELS];
-for (size_t i = 0; i <NUMBER_OF_CHANNELS; i++)
-{
-    channel_properties[i].channel = channels[i];
-    channel_properties[i].thresholdUpper = 16381 ; //Threshold voltage in 16 bit scale from set voltage on channel
-    channel_properties[i].thresholdUpperHysteresis = 4095;
-    channel_properties[i].thresholdMode = PS4000A_LEVEL;
-}
+PS4000A_TRIGGER_CHANNEL_PROPERTIES  channel_properties [1];
 
-int16_t auxOutputEnable ;
+    channel_properties[0].channel = channels[0];
+    channel_properties[0].thresholdUpper = 16381 ; //Threshold voltage in 16 bit scale from set voltage on channel
+    channel_properties[0].thresholdUpperHysteresis = 4095;
+    channel_properties[0].thresholdMode = PS4000A_LEVEL;
+
+
+int16_t auxOutputEnable;
 int32_t autoTriggerMilliseconds {10000};
 
-r = ps4000aSetTriggerChannelProperties( handle, channel_properties, NUMBER_OF_CHANNELS, auxOutputEnable, autoTriggerMilliseconds);
+r = ps4000aSetTriggerChannelProperties(handle, channel_properties, 1, auxOutputEnable, autoTriggerMilliseconds);
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
 
 //ps4000aSetTriggerDelay() – set up post-trigger delay
-cout << "////////////////ps4000aSetTriggerDelay()//////////////"<< endl<< endl;
+
+cout << "////////////////ps4000aSetTriggerDelay()//////////////" << endl<< endl;
+
 uint32_t delay {0};
-r =  ps4000aSetTriggerDelay( handle, delay);
+r =  ps4000aSetTriggerDelay(handle, delay);
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
 std::vector <int16_t*> vec_buffer(NUMBER_OF_CHANNELS, nullptr);
-int32_t bufferLth{1024000};
+int32_t bufferLth{POINTS_VALUE};
 
 for(size_t i=0; i < times.size(); i++) // open for
 {
+
+r = ps4000aGetTimebase( handle, timebase,  points_vec[i],  &timeIntervalNanoseconds, &maxSamples, segmentIndex);
+rs = return_fun(r);
+cout << "\n" << "rs = "<< rs << "\n";
+
 
 //ps4000aRunBlock() – start block mode
 cout << "////////////////ps4000aRunBlock()//////////////"<< endl<< endl;
@@ -475,7 +451,7 @@ int32_t * timeIndisposedMs;
 ps4000aBlockReady lpReady;
 void * pParameter;
 
-r = ps4000aRunBlock(handle, 0, POINTS_VALUE,  timebase, nullptr, segmentIndex , nullptr, nullptr);
+r = ps4000aRunBlock(handle, 0, static_cast<int32_t>(points_vec[i]),  timebase, nullptr, segmentIndex , nullptr, nullptr);
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
@@ -493,16 +469,9 @@ r = ps4000aIsReady(handle, &ready);
 //ps4000aSetDataBuffer() – register data buffer with driver
 cout << "////////////////SetDataBuffer//////////////"<< endl<< endl;
 
-//int16_t buffer1[bufferLth]{0};
-//int16_t buffer2[bufferLth];
-//int16_t buffer3[bufferLth];
-//int16_t buffer4[bufferLth];
-//int16_t buffer5[bufferLth];
-//int16_t buffer6[bufferLth];
-
 for(size_t i = 0; i < NUMBER_OF_CHANNELS; i++)
 {
-    vec_buffer[i] = new int16_t[bufferLth];
+    vec_buffer[i] = new int16_t[POINTS_VALUE];
 }
 
 //uint32_t segmentIndex;
@@ -515,45 +484,18 @@ for (size_t i = 0; i <NUMBER_OF_CHANNELS; i++)
 
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
-//
-////uint32_t segmentIndex;
-//r = ps4000aSetDataBuffer(handle, noise2_channel, buffer2, bufferLth, segmentIndex, mode);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-////uint32_t segmentIndex;
-//r = ps4000aSetDataBuffer(handle, noise3_channel, buffer3, bufferLth, segmentIndex, mode);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-////uint32_t segmentIndex;
-//r = ps4000aSetDataBuffer(handle, noise4_channel, buffer4, bufferLth, segmentIndex, mode);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-////uint32_t segmentIndex;
-//r = ps4000aSetDataBuffer(handle, amp_channel, buffer5, bufferLth, segmentIndex, mode);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
-//
-////uint32_t segmentIndex;
-//r = ps4000aSetDataBuffer(handle, trig_channel, buffer6, bufferLth, segmentIndex, mode);
-//rs = return_fun(r);
-//cout << endl << "rs = "<< rs << endl;
 
-//this_thread::sleep_for(1000ms);
-//  std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
 
-// ps4000aGetValues() – retrieve block-mode data
+
 cout << "////////////////GetValues//////////////"<< endl<< endl;
 uint32_t startIndex{0};
-uint32_t  noOfSamples {POINTS_VALUE}; //modified from 102 400
+uint32_t  noOfSamples {static_cast<uint32_t>(POINTS_VALUE)}; //modified from 102 400
 uint32_t downSampleRatio {1};
 PS4000A_RATIO_MODE downSampleRatioMode{PS4000A_RATIO_MODE_NONE};
 //uint32_t segmentIndex;
 int16_t  overflow{0};
 
-r = ps4000aGetValues(handle, startIndex, &noOfSamples, downSampleRatio, downSampleRatioMode,  segmentIndex, &overflow);
+r = ps4000aGetValues(handle, startIndex, &points_vec[i], downSampleRatio, downSampleRatioMode,  segmentIndex, &overflow);
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
@@ -564,12 +506,12 @@ testfile.open("test_pico.csv", std::ios::app);
     testfile << "test_channel" <<endl;
 
   {
-    for (int i = 0; i < NUMBER_OF_CHANNELS; ++i) {
-        cout << "Array " << i << ": ";
-        for (int j = 0; j < bufferLth; ++j) {
-            testfile << vec_buffer[i][j] << "\n"; // Вывод значений
+    for (int i = 0; i < bufferLth; ++i) {
+        
+        for (int j = 0; j < NUMBER_OF_CHANNELS; ++j) {
+            testfile << vec_buffer[j][i] << ","; // Вывод значений
         }
-        cout << endl;
+        testfile<<"\n";
     }
 
     testfile.close();
@@ -603,4 +545,6 @@ cout << "////////////////Write data in text file//////////////"<< endl<< endl;
 
     return 0;
 } //int main end
+
+
 
