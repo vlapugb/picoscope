@@ -20,7 +20,7 @@
 /* Headers for Windows */
 #if defined(__WIN32) || defined(__WIN64)
 #include "windows.h"
-#inclide <conio.h>
+#include <conio.h>
 #endif
 
 
@@ -180,8 +180,10 @@ Parse_data parse_xml_function (const char* file_name)
     return std::make_tuple(points, num_of_channels, times, sample_freq);
 }
 
-std::vector<uint32_t> string_to_vector (const string& times)
+std::vector<uint32_t> string_to_vector (string times)
 {
+
+    times = times.substr(1, times.length() - 2);
 
     std::vector<uint32_t> vec_times;
     std::stringstream ss(times);
@@ -252,10 +254,6 @@ std::vector<PS4000A_CHANNEL> create_channel(const int32_t& num_of_channels)
     }
     return channels;
 }
-
-
-
-
 
 int main()
 {
