@@ -418,7 +418,7 @@ int32_t bufferLth{POINTS_VALUE};
 cout<<POINTS_VALUE;
 
 
-for(size_t i=0; i < 2; i++) // open for
+for(size_t i=0; i < times.size(); i++) // open for
 {
 
 r = ps4000aGetTimebase( handle, timebase,  points_vec[i],  &timeIntervalNanoseconds, &maxSamples, segmentIndex);
@@ -440,12 +440,12 @@ cout << endl << "rs = "<< rs << endl;
 
 cout << "////////////////ps4000isReady()//////////////"<< endl<< endl;//check if data is ready
 
-int16_t ready{0};
-while (ready==0)
-{
-cout << "Data NOT ready"<<endl;
-r = ps4000aIsReady(handle, &ready);
-}
+// int16_t ready{0};
+// while (ready==0)
+// {
+// cout << "Data NOT ready"<<endl;
+// r = ps4000aIsReady(handle, &ready);
+// }
 
 
 
