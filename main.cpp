@@ -33,24 +33,22 @@
 #include "pugiconfig.hpp"
 #include <chrono>
 #include <thread>
-//#include <ps4000aApi.h>
-//#include <cinttypes>
-//#include <C:\\Program Files\\CodeBlocks\\MinGW\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include\\c++\\cstdint>
 
-#define Sleep(a) usleep(1000*a)
 #define filename_xml "Pico_param.XML"
 
 using std::string;
 using std::cout;
 using std::endl;
+
 uint32_t check(string param){
 
-
-        uint32_t result = stod(param);
-        if (result > 0){
-            return uint32_t(result);
+    uint32_t result = stod(param);
+    if (result > 0)
+    {
+        return uint32_t(result);
     }
-    else return 0;
+    else return 1;
+
 }//check
 
 
@@ -184,12 +182,9 @@ Parse_data parse_xml_function (const char* file_name)
 
 std::vector<uint32_t> string_to_vector (const string& times)
 {
-    std::string input = "[1,2,3,4,5,6]";
-
-    input = input.substr(1, input.length() - 2);
 
     std::vector<uint32_t> vec_times;
-    std::stringstream ss(input);
+    std::stringstream ss(times);
     std::string token;
 
     while (std::getline(ss, token, ',')) {
@@ -262,8 +257,6 @@ std::vector<PS4000A_CHANNEL> create_channel(const int32_t& num_of_channels)
 
 
 
-
-
 int main()
 {
 //
@@ -312,26 +305,6 @@ int16_t enabled {true};
 
 PS4000A_COUPLING type_AC  {PS4000A_AC};
 PS4000A_COUPLING type_DC {PS4000A_DC};
-
-//set Voltage ranges
-
-/*
-0  PICO_X1_PROBE_10MV ±10 mV
-1 PICO_X1_PROBE_20MV ±20 mV
-2 PICO_X1_PROBE_50MV ±50 mV
-3 PICO_X1_PROBE_100MV ±100 mV
-4 PICO_X1_PROBE_200MV ±200 mV
-5 PICO_X1_PROBE_500MV ±500 mV
-6 PICO_X1_PROBE_1V ±1 V
-7 PICO_X1_PROBE_2V ±2 V
-8 PICO_X1_PROBE_5V ±5 V
-9 PICO_X1_PROBE_10V ±10 V
-10 PICO_X1_PROBE_20V ±20 V
-11 PICO_X1_PROBE_50V ±50 V
-12 PICO_X1_PROBE_100V ±100 V
-13 PICO_X1_PROBE_200V ±200 V
-*/
-
 PICO_CONNECT_PROBE_RANGE test_range {PICO_X1_PROBE_5V};
 
 float analogOffset  {0};
@@ -356,7 +329,6 @@ uint32_t segmentIndex{0};
 r = ps4000aGetTimebase( handle, timebase,  POINTS_VALUE,  &timeIntervalNanoseconds, &maxSamples, segmentIndex);
 rs = return_fun(r);
 cout << "\n" << "rs = "<< rs << "\n";
-//cout << endl << "max samples "<< maxSamples << endl;
 cout<<"time interval (ns)"<<timeIntervalNanoseconds<<"\n";
 
 
