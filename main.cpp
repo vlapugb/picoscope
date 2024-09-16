@@ -255,30 +255,43 @@ std::vector<PS4000A_CHANNEL> create_channel(const int32_t& num_of_channels)
     return channels;
 }
 
+
+void writing_data(const std::vector <int16_t*>& vec_buffer, const int32_t bufferLth, const int32_t NUMBER_OF_CHANNELS)
+{
+std::ofstream testfile;
+testfile.open("test_pico.csv", std::ios::app);
+    if (testfile.is_open())
+    {
+    for (int i = 0; i < bufferLth; ++i) {
+        
+        for (int j = 0; j < NUMBER_OF_CHANNELS; ++j) {
+            testfile << vec_buffer[j][i] << ","; // Вывод значений
+        }
+        testfile<<"\n";
+    }
+
+    testfile.close();
+  }
+}
+
+
+
 int main()
 {
-//
-//
- // Загрузка XML-файла
-
 
  // Загрузка XML-файла
 const auto& data_set = parse_xml_function("file.xml");
 const auto& times = string_to_vector(std::get<2>(data_set));
 
 auto points_vec = string_to_vector(std::get<0>(data_set));
-const int32_t POINTS_VALUE = *(std::max_element(times.begin(), times.end()));
+const int32_t POINTS_VALUE = *(std::max_element(points_vec.begin(), points_vec.end()));
 const int32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
 const int32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
 
 
 const auto& channels = create_channel(NUMBER_OF_CHANNELS);
 
-
-
 const string filepath{""};
-
-
 
 int16_t handle{0};
 uint32_t return_value_open{0};
@@ -292,10 +305,6 @@ auto retval_open = ps4000aOpenUnit(&handle, NULL);
 rs = return_fun(retval_open);
 
 cout << "\n" << "rs = "<< rs << "\n";
-
-
-
-
 
 PS4000A_CHANNEL test_channel {PS4000A_CHANNEL_A} ;
 
@@ -406,13 +415,17 @@ cout << endl << "rs = "<< rs << endl;
 std::vector <int16_t*> vec_buffer(NUMBER_OF_CHANNELS, nullptr);
 int32_t bufferLth{POINTS_VALUE};
 
-for(size_t i=0; i < times.size(); i++) // open for
+cout<<POINTS_VALUE;
+
+
+for(size_t i=0; i < 2; i++) // open for
 {
 
 r = ps4000aGetTimebase( handle, timebase,  points_vec[i],  &timeIntervalNanoseconds, &maxSamples, segmentIndex);
 rs = return_fun(r);
 cout << "\n" << "rs = "<< rs << "\n";
 
+cout<<POINTS_VALUE;
 
 //ps4000aRunBlock() – start block mode
 cout << "////////////////ps4000aRunBlock()//////////////"<< endl<< endl;
@@ -469,30 +482,12 @@ r = ps4000aGetValues(handle, startIndex, &points_vec[i], downSampleRatio, downSa
 rs = return_fun(r);
 cout << endl << "rs = "<< rs << endl;
 
-std::ofstream testfile;
-testfile.open("test_pico.csv", std::ios::app);
-  if (testfile.is_open())
-//    testfile << "noise_1_channel" << ","<< "noise_2_channel"<< ","<< "noise_3_channel"<< ","<< "noise_4_channel"<< ","<< "amp_channel"<< ","<< "trig_channel"<<endl;
-    testfile << "test_channel" <<endl;
-
-  {
-    for (int i = 0; i < bufferLth; ++i) {
-        
-        for (int j = 0; j < NUMBER_OF_CHANNELS; ++j) {
-            testfile << vec_buffer[j][i] << ","; // Вывод значений
-        }
-        testfile<<"\n";
-    }
-
-    testfile.close();
-  }
+writing_data(vec_buffer, bufferLth, NUMBER_OF_CHANNELS);
 
 if(times[times.size()-1]) break;
 std::this_thread::sleep_for(std::chrono::duration<int64_t, std::milli>(times[i+1] -times[i]));
 
-
 } //for 
-
 
 //ps4000aStop() – stop data capture
 cout << "////////////////Pico Stop//////////////"<< endl<< endl;
@@ -510,8 +505,6 @@ cout << endl;
 cout << "handle = " << handle << endl;
 cout << endl;
 
-
-cout << "////////////////Write data in text file//////////////"<< endl<< endl;
 
     return 0;
 } //int main end
