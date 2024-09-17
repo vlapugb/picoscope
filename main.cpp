@@ -35,12 +35,13 @@
 #include <thread>
 
 #define filename_xml "Pico_param.XML"
-typedef std::tuple<string, int32_t, string, int32_t> Parse_data;
-
 
 using std::string;
 using std::cout;
 using std::endl;
+
+typedef std::tuple<string, int32_t, string, int32_t> Parse_data;
+
 
 uint32_t check(const string& param)
 {
@@ -163,8 +164,6 @@ string return_fun(uint32_t value)
     return rv;
 } //func
 
-typedef std::tuple<string, int32_t, string, int32_t> Parse_data;
-
 Parse_data parse_xml_function (const char* file_name)
 {
     pugi::xml_document doc;
@@ -185,14 +184,14 @@ Parse_data parse_xml_function (const char* file_name)
     return std::make_tuple(points, num_of_channels, times, sample_freq);
 }
 
-std::vector<uint32_t> string_to_vector (const string& times)
+std::vector<uint32_t> string_to_vector (string times)
 {
     
-    const_cast<string&>(times) = times.substr(1, times.length() - 2);
+    times = times.substr(1, times.length() - 2);
 
     std::vector<uint32_t> vec_times;
     std::stringstream ss(times);
-    std::string token;
+    string token;
 
     while (std::getline(ss, token, ',')) 
     {
