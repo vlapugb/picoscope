@@ -488,7 +488,7 @@ int main()
         //uint32_t segmentIndex;
         int16_t  overflow{0};
 
-        r = ps4000aGetValues(handle, startIndex, &points_vec[i], downSampleRatio, downSampleRatioMode,  segmentIndex, &overflow);
+        r = ps4000aGetValues(handle, startIndex, &noOfSamples, downSampleRatio, downSampleRatioMode,  segmentIndex, &overflow);
         rs = return_fun(r);
         cout << endl << "rs = "<< rs << endl;
 
