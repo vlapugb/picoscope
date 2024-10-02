@@ -43,7 +43,8 @@ using std::endl;
 typedef std::tuple<string, int32_t, string, int32_t> Parse_data;
 
 
-uint32_t check(const string& param)
+uint32_t
+check(const string& param)
 {
 
     uint32_t result = stod(param);
@@ -57,7 +58,9 @@ uint32_t check(const string& param)
 }//check
 
 
-bool ShowParameterText(string param, pugi::xml_node node)
+bool
+ShowParameterText(string param
+                 ,pugi::xml_node node)
 {
     cout << "Showing parameter : " << param << std::endl;
 
@@ -82,7 +85,8 @@ bool ShowParameterText(string param, pugi::xml_node node)
     return true;
 } //function ShowParam
 
-string return_fun(uint32_t value)
+string
+return_fun(uint32_t value)
 {
     string rv;
     switch (value)
@@ -164,7 +168,8 @@ string return_fun(uint32_t value)
     return rv;
 } //func
 
-Parse_data parse_xml_function (const char* file_name)
+Parse_data
+parse_xml_function (const char* file_name)
 {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(file_name);
@@ -184,7 +189,8 @@ Parse_data parse_xml_function (const char* file_name)
     return std::make_tuple(points, num_of_channels, times, sample_freq);
 }
 
-std::vector<uint32_t> string_to_vector (string times)
+std::vector<uint32_t>
+string_to_vector (string times)
 {
     
     times = times.substr(1, times.length() - 2);
@@ -201,7 +207,8 @@ std::vector<uint32_t> string_to_vector (string times)
     return vec_times;
 }
 
-std::vector<PS4000A_CHANNEL> create_channel(const int32_t& num_of_channels)
+std::vector<PS4000A_CHANNEL>
+create_channel(const int32_t& num_of_channels)
 {
     std::vector<PS4000A_CHANNEL> channels;
 
@@ -264,7 +271,10 @@ std::vector<PS4000A_CHANNEL> create_channel(const int32_t& num_of_channels)
 }
 
 
-void writing_data(const std::vector <int16_t*>& vec_buffer, const int32_t bufferLth, const int32_t NUMBER_OF_CHANNELS)
+void 
+writing_data(const std::vector <int16_t*>& vec_buffer
+            ,const int32_t bufferLth
+            ,const int32_t NUMBER_OF_CHANNELS)
 {
     std::ofstream testfile;
     testfile.open("test_pico.csv", std::ios::app);
@@ -287,7 +297,8 @@ void writing_data(const std::vector <int16_t*>& vec_buffer, const int32_t buffer
 
 //освобождение памяти
 
-void free_buffers(const std::vector<int16_t*>& vec_buffer)
+void
+free_buffers(const std::vector<int16_t*>& vec_buffer)
 {
     for(const auto& it : vec_buffer)
     {
@@ -296,7 +307,8 @@ void free_buffers(const std::vector<int16_t*>& vec_buffer)
 }
 
 
-int main()
+int
+main()
 {
 
     // Загрузка XML-файла
@@ -433,7 +445,7 @@ int main()
 
     std::vector <int16_t*> vec_buffer(NUMBER_OF_CHANNELS, nullptr);
     int32_t bufferLth{POINTS_VALUE};
-
+    cout << "buffer length: " << bufferLth;
     cout<<POINTS_VALUE;
 
 
@@ -444,18 +456,27 @@ int main()
         rs = return_fun(r);
         cout << "\n" << "rs = "<< rs << "\n";
 
-        cout<<POINTS_VALUE;
+        //ps4000aRunBlock()  start block mode
+        cout << "////////////////ps4000aRunBlock()//////////////"<< endl<< endl;
+        int32_t noOfPreTriggerSamples {0};
+        int32_t noOfPostTriggerSamples {POINTS_VALUE};
+        int32_t * timeIndisposedMs;
+        ps4000aBlockReady lpReady;
+        void * pParameter;
 
-        //ps4000aRunBlock() – start block mode
+r = ps4000aRunBlock(handle,noOfPreTriggerSamples, noOfPostTriggerSamples,  timebase, nullptr, segmentIndex , nullptr, nullptr);
+
+rs = return_fun(r);
+cout << endl << "rs = "<< rs << endl;
 
         cout << "////////////////ps4000isReady()//////////////"<< endl<< endl;//check if data is ready
 
-        // int16_t ready{0};
-        // while (ready==0)
-        // {
-        // cout << "Data NOT ready"<<endl;
-        // r = ps4000aIsReady(handle, &ready);
-        // }
+        int16_t ready{0};
+        while (ready==0)
+        {
+        cout << "Data NOT ready"<<endl;
+        r = ps4000aIsReady(handle, &ready);
+        }
 
 
 
@@ -489,6 +510,7 @@ int main()
         int16_t  overflow{0};
 
         r = ps4000aGetValues(handle, startIndex, &noOfSamples, downSampleRatio, downSampleRatioMode,  segmentIndex, &overflow);
+        cout << "samples: " << noOfSamples;
         rs = return_fun(r);
         cout << endl << "rs = "<< rs << endl;
 
