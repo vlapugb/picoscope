@@ -8,7 +8,9 @@ LIBRARIES="-lpugixml -lps4000a"
 
 LIB_PATH="-L/opt/picoscope/lib/"
 
-g++ -o $OUTPUT $SOURCE $LIB_PATH $LIBRARIES
+OTHER_FILES="picofunctions.cpp"
+
+g++ -o $OUTPUT $SOURCE $OTHER_FILES $LIB_PATH $LIBRARIES
 
 if [ $? -eq 0 ]; then
     echo "Compilation successful."
