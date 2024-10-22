@@ -14,6 +14,18 @@ main()
     const int32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
     const int32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
 
+    if((NUMBER_OF_CHANNELS) <= 0 && (NUMBER_OF_CHANNELS) > 8)
+    {
+        std::cerr << "Incorrect NUMBER OF CHANNELS";
+        return EOF;
+    }
+    if(SAMPLE_FREQUENCY < 0)
+    {
+        std::cerr << "Incorrect SAMPLE FREQUENCY";
+        return EOF;
+    }
+    
+
     const auto& channels = create_channel(NUMBER_OF_CHANNELS);
 
     const string filepath{""};
