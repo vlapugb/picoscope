@@ -24,7 +24,7 @@ main()
         std::cerr << "Incorrect SAMPLE FREQUENCY";
         return EOF;
     }
-    
+
 
     const auto& channels = create_channel(NUMBER_OF_CHANNELS);
 
@@ -49,7 +49,9 @@ main()
     PS4000A_COUPLING type_DC {PS4000A_DC};
     PICO_CONNECT_PROBE_RANGE test_range {PICO_X1_PROBE_5V};
 
+    float analogOffset1  {1.65};
     float analogOffset  {0};
+
 
     int16_t start{10};
     auto r = ps4000aFlashLed(handle, start);
@@ -63,12 +65,16 @@ main()
 
     cout << "SET TRIGGER CHANNEL CONDITIONS:"<< endl << endl;
 
-    PS4000A_CONDITION conditions[1];
+    PS4000A_CONDITION conditions[NUMBER_OF_CHANNELS];
 
     conditions[0].source = channels[0];
     conditions[0].condition = PS4000A_CONDITION_TRUE;
 
-
+    for(unsigned int i = 1; i < NUMBER_OF_CHANNELS; i++ )
+    {
+    conditions[i].source = channels[i];
+    conditions[i].condition = PS4000A_CONDITION_FALSE;
+    }
     PS4000A_CONDITIONS_INFO info {PS4000A_CLEAR};
 
     r = ps4000aSetTriggerChannelConditions( handle, conditions,  NUMBER_OF_CHANNELS, info);

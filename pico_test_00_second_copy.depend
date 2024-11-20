@@ -146,3 +146,93 @@
 1686294088 c:\grad_amp\pico_test_00_second_copy\libps4000a\picostatus.h
 	<stdint.h>
 
+1731403202 source:d:\low_field_mri\vladimir\picoscope\main.cpp
+	"picofunctions.h"
+	<memory>
+
+1731399070 d:\low_field_mri\vladimir\picoscope\picofunctions.h
+	<stdio.h>
+	<chrono>
+	<iostream>
+	<thread>
+	<fstream>
+	"pugixml.hpp"
+	<tuple>
+	<iomanip>
+	<vector>
+	<algorithm>
+	"windows.h"
+	<conio.h>
+	<stdio.h>
+	<cstring>
+	"pugixml.hpp"
+	"libps4000a/PicoStatus.h"
+	"libps4000a/ps4000aApi.h"
+	"pugixml.hpp"
+	"pugiconfig.hpp"
+	<chrono>
+	<thread>
+
+1731399070 d:\low_field_mri\vladimir\picoscope\libps4000a\picostatus.h
+	<stdint.h>
+
+1731399070 d:\low_field_mri\vladimir\picoscope\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1731399070 d:\low_field_mri\vladimir\picoscope\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1731399070 d:\low_field_mri\vladimir\picoscope\inc\picodeviceenums.h
+
+1731399070 d:\low_field_mri\vladimir\picoscope\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1731399070 d:\low_field_mri\vladimir\picoscope\inc\picoconnectprobes.h
+	<stdint.h>
+
+1731399070 d:\low_field_mri\vladimir\picoscope\inc\picostatus.h
+	<stdint.h>
+
+1731399070 d:\low_field_mri\vladimir\picoscope\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1694109312 d:\low_field_mri\vladimir\picoscope\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1694109312 d:\low_field_mri\vladimir\picoscope\pugiconfig.hpp
+
+1731399070 source:d:\low_field_mri\vladimir\picoscope\picofunctions.cpp
+	"picofunctions.h"
+
+1694109312 source:d:\low_field_mri\vladimir\picoscope\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+

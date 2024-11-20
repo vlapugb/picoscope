@@ -48,6 +48,8 @@
 		<Unit filename="libps4000a-1.0/PicoStatus.h" />
 		<Unit filename="libps4000a-1.0/ps4000aApi.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="picofunctions.cpp" />
+		<Unit filename="picofunctions.h" />
 		<Unit filename="pugiconfig.hpp" />
 		<Unit filename="pugixml.cpp" />
 		<Unit filename="pugixml.hpp" />
