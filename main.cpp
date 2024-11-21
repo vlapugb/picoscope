@@ -5,14 +5,16 @@
 #include "picofunctions.h"
 
 int
-main(int argc, char* argv[])
+main(int argc, char *argv[])
 {
-    if(argc > 2) {
+    if (argc > 2)
+    {
         return -1;
     }
 
     bool flag_console = false;
-    if(strcmp(argv[1], "--debug") == 0) {
+    if (strcmp(argv[1], "--debug") == 0)
+    {
         flag_console = true;
     }
     Logger logger("logger.log", flag_console);
@@ -57,7 +59,6 @@ main(int argc, char* argv[])
     PS4000A_COUPLING type_DC{PS4000A_DC};
     PICO_CONNECT_PROBE_RANGE test_range{PICO_X1_PROBE_5V};
 
-    //float analogOffset1{1.65};
     float analogOffset{0};
 
     int16_t start{10};
@@ -134,8 +135,14 @@ main(int argc, char* argv[])
     int16_t triggerEnabled{0};
     int16_t PulseWithQualiferEnabled{0};
 
-    cout<<ps4000aIsTriggerOrPulseWidthQualifierEnabled(handle, &triggerEnabled, &PulseWithQualiferEnabled);
-
+    int64_t triggerTime = 0;
+    PS4000A_TIME_UNITS timeUnits = PS4000A_FS;
+    retval2 = ps4000aGetTriggerTimeOffset64(handle, &triggerTime, &timeUnits, segmentIndex);
+    while (return_fun(retval2) != "PICO_OK")
+    {
+        logger.logInfo("Trigger isn't ON");
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 
     for (size_t i = 0; i < times.size(); i++)
     {
@@ -161,7 +168,6 @@ main(int argc, char* argv[])
 
         while (ready == 0)
         {
-
             retval2 = ps4000aIsReady(handle, &ready);
             logger.log_output(retval2);
         }
