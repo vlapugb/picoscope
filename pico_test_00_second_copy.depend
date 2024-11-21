@@ -236,3 +236,105 @@
 	<sys/stat.h>
 	<stdint.h>
 
+1732188488 source:d:\low_field_mri\vladimir\picoscope-main\main.cpp
+	<memory>
+	"logger.hpp"
+	"picofunctions.h"
+
+1732184836 d:\low_field_mri\vladimir\picoscope-main\logger.hpp
+	<chrono>
+	<ctime>
+	<fstream>
+	<iostream>
+	<string>
+	<stdlib.h>
+	"picofunctions.h"
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\picofunctions.h
+	<stdio.h>
+	<algorithm>
+	<chrono>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<thread>
+	<tuple>
+	<vector>
+	"pugixml.hpp"
+	<conio.h>
+	"windows.h"
+	<stdio.h>
+	<chrono>
+	<cstring>
+	<thread>
+	"libps4000a/PicoStatus.h"
+	"libps4000a/ps4000aApi.h"
+	"pugiconfig.hpp"
+	"pugixml.hpp"
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\pugiconfig.hpp
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\libps4000a\picostatus.h
+	<stdint.h>
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\inc\picodeviceenums.h
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\inc\picoconnectprobes.h
+	<stdint.h>
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\inc\picostatus.h
+	<stdint.h>
+
+1732145701 d:\low_field_mri\vladimir\picoscope-main\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1732145701 source:d:\low_field_mri\vladimir\picoscope-main\picofunctions.cpp
+	"picofunctions.h"
+
+1732145701 source:d:\low_field_mri\vladimir\picoscope-main\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+
+1732186596 source:d:\low_field_mri\vladimir\picoscope-main\logger.cpp
+	"logger.hpp"
+

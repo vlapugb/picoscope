@@ -5,16 +5,24 @@
 #include "picofunctions.h"
 
 int
-main()
+main(int argc, char* argv[])
 {
-    Logger logger("logger.txt");
+    if(argc > 2) {
+        return -1;
+    }
+
+    bool flag_console = false;
+    if(strcmp(argv[1], "--debug") == 0) {
+        flag_console = true;
+    }
+    Logger logger("logger.log", flag_console);
     const auto &data_set = parse_xml_function("file.xml");
     const auto &times = string_to_vector(std::get<2>(data_set));
 
     auto points_vec = string_to_vector(std::get<0>(data_set));
     const int32_t POINTS_VALUE = *(std::max_element(points_vec.begin(), points_vec.end()));
-    const int32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
-    const int32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
+    const uint32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
+    const uint32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
 
     if ((NUMBER_OF_CHANNELS) <= 0 && (NUMBER_OF_CHANNELS) > 8)
     {
@@ -49,7 +57,7 @@ main()
     PS4000A_COUPLING type_DC{PS4000A_DC};
     PICO_CONNECT_PROBE_RANGE test_range{PICO_X1_PROBE_5V};
 
-    float analogOffset1{1.65};
+    //float analogOffset1{1.65};
     float analogOffset{0};
 
     int16_t start{10};
@@ -123,6 +131,12 @@ main()
 
     int32_t bufferLth{POINTS_VALUE};
 
+    int16_t triggerEnabled{0};
+    int16_t PulseWithQualiferEnabled{0};
+
+    cout<<ps4000aIsTriggerOrPulseWidthQualifierEnabled(handle, &triggerEnabled, &PulseWithQualiferEnabled);
+
+
     for (size_t i = 0; i < times.size(); i++)
     {
         logger.logInfo("GET TIMEBASE");
@@ -147,11 +161,12 @@ main()
 
         while (ready == 0)
         {
+
             retval2 = ps4000aIsReady(handle, &ready);
             logger.log_output(retval2);
         }
 
-        cout << "SET DATA BUFFER: " << endl << endl;
+        logger.logInfo("SET DATA BUFFER: ");
 
         for (int32_t i = 0; i < NUMBER_OF_CHANNELS; i++)
         {

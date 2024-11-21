@@ -4,13 +4,13 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
+#include <stdlib.h>
 #include "picofunctions.h"
 
 class Logger
 {
    public:
-    Logger(const std::string &filename);
+    Logger(const std::string &filename, bool output_format);
     ~Logger();
 
     void
@@ -23,7 +23,8 @@ class Logger
     log_output(const uint32_t &reval_open);
 
    private:
-    std::ofstream log_file;
+    std::fstream log_file;
+    bool output_format;
     void
     log(const std::string &level, const std::string &message);
 };
