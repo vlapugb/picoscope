@@ -26,7 +26,7 @@ main(int argc, char *argv[])
     const uint32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
     const uint32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
 
-    if ((NUMBER_OF_CHANNELS) <= 0 && (NUMBER_OF_CHANNELS) > 8)
+    if ((NUMBER_OF_CHANNELS) <= 0 || (NUMBER_OF_CHANNELS) > 8)
     {
         logger.logError("Incorrect NUMBER OF CHANNELS");
         return EOF;
@@ -135,15 +135,6 @@ main(int argc, char *argv[])
     int16_t triggerEnabled{0};
     int16_t PulseWithQualiferEnabled{0};
 
-    int64_t triggerTime = 0;
-    PS4000A_TIME_UNITS timeUnits = PS4000A_FS;
-    retval2 = ps4000aGetTriggerTimeOffset64(handle, &triggerTime, &timeUnits, segmentIndex);
-    while (return_fun(retval2) != "PICO_OK")
-    {
-        logger.logInfo("Trigger isn't ON");
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-
     for (size_t i = 0; i < times.size(); i++)
     {
         logger.logInfo("GET TIMEBASE");
@@ -170,8 +161,16 @@ main(int argc, char *argv[])
         {
             retval2 = ps4000aIsReady(handle, &ready);
             logger.log_output(retval2);
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
-
+        int64_t triggerTime = 0;
+        PS4000A_TIME_UNITS timeUnits = PS4000A_FS;
+        retval2 = ps4000aGetTriggerTimeOffset64(handle, &triggerTime, &timeUnits, segmentIndex);
+        while (return_fun(retval2) != "PICO_OK")
+        {
+            logger.logInfo("Trigger isn't ON");
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
         logger.logInfo("SET DATA BUFFER: ");
 
         for (int32_t i = 0; i < NUMBER_OF_CHANNELS; i++)
