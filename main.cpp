@@ -1,24 +1,45 @@
-
 #include <memory>
-
+#include <windows.h>
 #include "logger.hpp"
+#include "simplelogger.hpp"
 #include "picofunctions.h"
+#include "parser.hpp"
+
+
+extern std::ostream out(std::cout.rdbuf());
+extern SimpleLogger newlogger(out, "pico", "picologs");
+
+HANDLE semaphore_open()
+{
+    HANDLE sem = OpenSemaphoreA(SEMAPHORE_MODIFY_STATE, FALSE, "wait-semaphore-5d95950d-a278-4733-a041-ee9fb05ad4e4");
+    if(sem == NULL)
+    {
+        newlogger << LogPref::Flag(ERROR) << "Cannot open semaphore: " << GetLastError() << endl;
+        return NULL;
+    }
+    else
+    {
+        return sem;
+    }
+}
+
+int semaphore_release(HANDLE sem)
+{
+    if(!ReleaseSemaphore(sem, 1, NULL))
+    {
+        newlogger << LogPref::Flag(ERROR) << "Cannot release semaphore: " << GetLastError() << endl;
+        return 0;
+    }
+
+    return 1;
+}
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
-    if (argc > 2)
-    {
-        return -1;
-    }
-
-    bool flag_console = false;
-    if (strcmp(argv[1], "--debug") == 0)
-    {
-        flag_console = true;
-    }
-    Logger logger("logger.log", flag_console);
-    const auto &data_set = parse_xml_function("file.xml");
+    bool flag_debug = false;
+    bool flag_below = false;
+    const auto &data_set = parse_xml_function(argv[1]);
     const auto &times = string_to_vector(std::get<2>(data_set));
 
     auto points_vec = string_to_vector(std::get<0>(data_set));
@@ -26,14 +47,21 @@ main(int argc, char *argv[])
     const uint32_t NUMBER_OF_CHANNELS = std::get<1>(data_set);
     const uint32_t SAMPLE_FREQUENCY = std::get<3>(data_set);
 
-    if ((NUMBER_OF_CHANNELS) <= 0 || (NUMBER_OF_CHANNELS) > 8)
+    Parser parse(argc, argv);
+    parse.cmdOption("--debug") == true ? flag_debug = true : flag_debug = false;
+    parse.cmdOption("--below") == true ? flag_debug = true : flag_debug = false;
+    //const std::string& file_name = parse.setFilename("-f", POINTS_VALUE, NUMBER_OF_CHANNELS, SAMPLE_FREQUENCY);
+    //Logger logger(file_name, flag_debug);
+
+
+    if ((NUMBER_OF_CHANNELS) <= 0 && (NUMBER_OF_CHANNELS) > 8)
     {
-        logger.logError("Incorrect NUMBER OF CHANNELS");
+        newlogger << LogPref::Flag(ERROR) << "Incorrect NUMBER OF CHANNELS" << endl;
         return EOF;
     }
     if (SAMPLE_FREQUENCY < 0)
     {
-        logger.logError("Incorrect SAMPLE FREQUENCY");
+        newlogger << LogPref::Flag(ERROR) << "Incorrect SAMPLE FREQUENCY" << endl;
         return EOF;
     }
 
@@ -45,13 +73,12 @@ main(int argc, char *argv[])
 
     string rs;
 
-    cout << "handle = " << handle << endl << endl;
-
-    logger.logInfo("OPEN PICO:");
+    if(flag_debug)
+        newlogger << "handle = " << handle << endl << endl;
 
     auto retval_open = ps4000aOpenUnit(&handle, NULL);
 
-    logger.log_output(retval_open);
+    newlogger << "OPEN PICO: " << retval_open;
 
     int16_t enabled{true};
 
@@ -59,17 +86,18 @@ main(int argc, char *argv[])
     PS4000A_COUPLING type_DC{PS4000A_DC};
     PICO_CONNECT_PROBE_RANGE test_range{PICO_X1_PROBE_5V};
 
+    //float analogOffset1{1.65};
     float analogOffset{0};
 
     int16_t start{10};
     auto retval2 = ps4000aFlashLed(handle, start);
-    logger.log_output(retval2);
+    newlogger << retval2 << endl;
 
     int32_t timeIntervalNanoseconds{0};
     int32_t maxSamples{0};
     uint32_t segmentIndex{0};
 
-    logger.logInfo("SET TRIGGER CHANNEL CONDITIONS:");
+    //logger.logInfo("SET TRIGGER CHANNEL CONDITIONS:");
 
     PS4000A_CONDITION conditions[NUMBER_OF_CHANNELS];
 
@@ -82,22 +110,24 @@ main(int argc, char *argv[])
         conditions[i].condition = PS4000A_CONDITION_FALSE;
     }
     PS4000A_CONDITIONS_INFO info{PS4000A_CLEAR};
-
+/*
     retval2 = ps4000aSetTriggerChannelConditions(handle, conditions, NUMBER_OF_CHANNELS, info);
     logger.log_output(retval2);
-
-    logger.logInfo("SET CHANNEL PICO");
+*/
+    newlogger << "SET CHANNEL PICO" << endl;
 
     retval2 =
         ps4000aSetChannel(handle, conditions[0].source, enabled, type_DC, test_range, analogOffset);
-    logger.log_output(retval2);
+
+    newlogger << retval2 << endl;
+
     for (int32_t i = 1; i < NUMBER_OF_CHANNELS; i++)
     {
         retval2 = ps4000aSetChannel(handle, conditions[i].source, enabled, type_AC, test_range,
                                     analogOffset);
-        logger.log_output(retval2);
+        newlogger << retval2 << endl;
     }
-
+    /*
     logger.logInfo("SET TRIGGER CHANNEL DIRECTIONS: ");
 
     PS4000A_DIRECTION directions[1];
@@ -127,6 +157,38 @@ main(int argc, char *argv[])
     uint32_t delay{0};
     retval2 = ps4000aSetTriggerDelay(handle, delay);
     logger.log_output(retval2);
+*/
+    // Simple trigger
+    newlogger << "Set simple trigger" << endl;
+    int16_t enable_trigger{1};
+    PS4000A_CHANNEL trig_channel{PS4000A_CHANNEL_A};
+    //int16_t trig_threshhold {16381};
+    int16_t trig_threshhold {8381};
+    PS4000A_THRESHOLD_DIRECTION th_direction;
+    if(flag_below)
+    {
+        th_direction = PS4000A_BELOW;
+    }
+    else
+    {
+        th_direction = PS4000A_RISING;
+    }
+    uint32_t trig_delay {10};
+    int16_t trig_autoTrigger_ms {10000};
+
+    auto retval_simple_trig = ps4000aSetSimpleTrigger
+    (
+     handle,
+     enable_trigger,
+     trig_channel,
+     trig_threshhold,
+     th_direction,
+     trig_delay,
+     trig_autoTrigger_ms
+    );
+
+    newlogger << "Simple trigger returned" << endl;
+    newlogger << retval_simple_trig << endl;
 
     std::vector<int16_t *> vec_buffer(NUMBER_OF_CHANNELS, nullptr);
 
@@ -135,18 +197,35 @@ main(int argc, char *argv[])
     int16_t triggerEnabled{0};
     int16_t PulseWithQualiferEnabled{0};
 
+    newlogger << ps4000aIsTriggerOrPulseWidthQualifierEnabled(handle, &triggerEnabled, &PulseWithQualiferEnabled) << endl;
+
+
+    newlogger << "prepare_for_hackrf: open semaphore" << endl;
+    HANDLE sem = semaphore_open();
+    if(sem == NULL)
+    {
+        retval2 = ps4000aStop(handle);
+        newlogger << retval2 << endl;
+        ps4000aCloseUnit(handle);
+        newlogger << "PICO CLOSED" << endl;
+        free_buffers(vec_buffer);
+
+        return -1;
+    }
+
+
     for (size_t i = 0; i < times.size(); i++)
     {
-        logger.logInfo("GET TIMEBASE");
+        newlogger << "GET TIMEBASE" << endl;
 
         uint32_t timebase = timebase_choice(SAMPLE_FREQUENCY);
-        logger.logTimebase("Timebase = ", timebase);
+        newlogger << "Timebase = " << timebase << endl;
 
         retval2 = ps4000aGetTimebase(handle, timebase, points_vec[i], &timeIntervalNanoseconds,
                                      &maxSamples, segmentIndex);
-        logger.log_output(retval2);
+        newlogger << retval2 << endl;
 
-        logger.logInfo("RUN BLOCK");
+        newlogger << "RUN BLOCK" << endl;
 
         int32_t noOfPreTriggerSamples{0};
         int32_t noOfPostTriggerSamples{POINTS_VALUE};
@@ -154,24 +233,32 @@ main(int argc, char *argv[])
         retval2 = ps4000aRunBlock(handle, noOfPreTriggerSamples, noOfPostTriggerSamples, timebase,
                                   nullptr, segmentIndex, nullptr, nullptr);
 
-        logger.log_output(retval2);
+        newlogger << retval2 << endl;
         int16_t ready{0};
+
+        newlogger << "ready_to_read: release semaphore" << endl;
+        if(semaphore_release(sem) == 0)
+        {
+            retval2 = ps4000aStop(handle);
+            newlogger << retval2 << endl;
+            ps4000aCloseUnit(handle);
+            newlogger << "PICO CLOSED" << endl;
+            free_buffers(vec_buffer);
+
+            return -1;
+        }
 
         while (ready == 0)
         {
+
             retval2 = ps4000aIsReady(handle, &ready);
-            logger.log_output(retval2);
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            if(flag_debug)
+            {
+                newlogger << retval2 << endl;
+            }
         }
-        int64_t triggerTime = 0;
-        PS4000A_TIME_UNITS timeUnits = PS4000A_FS;
-        retval2 = ps4000aGetTriggerTimeOffset64(handle, &triggerTime, &timeUnits, segmentIndex);
-        while (return_fun(retval2) != "PICO_OK")
-        {
-            logger.logInfo("Trigger isn't ON");
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
-        logger.logInfo("SET DATA BUFFER: ");
+
+        newlogger << "SET DATA BUFFER: " << endl;
 
         for (int32_t i = 0; i < NUMBER_OF_CHANNELS; i++)
         {
@@ -186,9 +273,9 @@ main(int argc, char *argv[])
                                            segmentIndex, mode);
         }
 
-        logger.log_output(retval2);
+        newlogger << retval2 << endl;
 
-        logger.logInfo("GET VALUES");
+        newlogger << "GET VALUES" << endl;
         uint32_t startIndex{0};
         uint32_t noOfSamples{static_cast<uint32_t>(POINTS_VALUE)};
         uint32_t downSampleRatio{1};
@@ -197,7 +284,7 @@ main(int argc, char *argv[])
 
         retval2 = ps4000aGetValues(handle, startIndex, &noOfSamples, downSampleRatio,
                                    downSampleRatioMode, segmentIndex, &overflow);
-        logger.log_output(retval2);
+        newlogger << retval2 << endl;
 
         writing_data(vec_buffer, bufferLth, NUMBER_OF_CHANNELS);
 
@@ -206,12 +293,12 @@ main(int argc, char *argv[])
             std::chrono::duration<int64_t, std::milli>(times[i + 1] - times[i]));
     }
 
-    logger.logInfo("PICO STOPED");
+    newlogger << "PICO STOPED" << endl;
 
     retval2 = ps4000aStop(handle);
-    logger.log_output(retval2);
+    newlogger << retval2 << endl;
     ps4000aCloseUnit(handle);
-    logger.logInfo("PICO CLOSED");
+    newlogger << "PICO CLOSED" << endl;
 
     free_buffers(vec_buffer);
 
