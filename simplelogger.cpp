@@ -166,5 +166,5 @@ SimpleLogger SimpleLogger::operator<<(LogPref::Flag flag) {
 SimpleLogger SimpleLogger::operator<<(std::ostream& (*func)(std::ostream&)) {
     if (console_enabled) func(std::cout);
     func(log_stream);
-    return *this;
+    return *this << LogPref::Flag(NO_LOG_STRING);
 }
