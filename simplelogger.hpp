@@ -69,32 +69,18 @@ public:
     void setLoggerFlag(LogPref::Flag log_flag);
     ~SimpleLogger();
 
+    template<typename T>
+    SimpleLogger operator<<(T val) {
+    if (console_enabled) {
+        std::cout << (this->log_flag.flag == NO_LOG_STRING ? "" : generateLogString(this->log_flag.flag)) << val;
+        std::cout << std::forward<T>(val);
+    }
+    log_stream << (this->log_flag.flag == NO_LOG_STRING ? "" : generateLogString(this->log_flag.flag)) << val;
+    return *this << LogPref::Flag(NO_LOG_STRING);
+    }
+
     SimpleLogger operator<<(LogPref::Flag flag);
-    SimpleLogger operator<<(bool val);
-    SimpleLogger operator<<(long val);
-    SimpleLogger operator<<(unsigned long val);
-    SimpleLogger operator<<(long long val);
-    SimpleLogger operator<<(unsigned long long val);
-    SimpleLogger operator<<(double val);
-    SimpleLogger operator<<(long double val);
-    SimpleLogger operator<<(const void* val);
-    SimpleLogger operator<<(std::nullptr_t);
-    SimpleLogger operator<<(short val);
-    SimpleLogger operator<<(int val);
-    SimpleLogger operator<<(unsigned short val);
-    SimpleLogger operator<<(unsigned int val);
-    SimpleLogger operator<<(float val);
-    SimpleLogger operator<<(std::streambuf *sb);
-    SimpleLogger operator<<(std::ios_base& (*func)(std::ios_base&));
     SimpleLogger operator<<(std::ostream& (*func)(std::ostream&));
-    SimpleLogger operator<<(std::_Setfill<char> func);
-    SimpleLogger operator<<(std::_Setw func);
-    SimpleLogger operator<<(std::string val);
-    SimpleLogger operator<<(const char* val);
-    SimpleLogger operator<<(const signed char* val);
-    SimpleLogger operator<<(const unsigned char* val);
-    SimpleLogger operator<<(const char val);
-    SimpleLogger operator<<(const unsigned char val);
 };
 
 #endif // SIMPLELOGGER_HPP
