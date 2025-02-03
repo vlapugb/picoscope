@@ -236,10 +236,11 @@
 	<sys/stat.h>
 	<stdint.h>
 
-1732188488 source:d:\low_field_mri\vladimir\picoscope-main\main.cpp
+1732277887 source:d:\low_field_mri\vladimir\picoscope-main\main.cpp
 	<memory>
 	"logger.hpp"
 	"picofunctions.h"
+	"parser.hpp"
 
 1732184836 d:\low_field_mri\vladimir\picoscope-main\logger.hpp
 	<chrono>
@@ -337,4 +338,605 @@
 
 1732186596 source:d:\low_field_mri\vladimir\picoscope-main\logger.cpp
 	"logger.hpp"
+
+1732277879 source:d:\low_field_mri\vladimir\picoscope-main\parser.cpp
+	"parser.hpp"
+
+1732277791 d:\low_field_mri\vladimir\picoscope-main\parser.hpp
+	<vector>
+	<string>
+	<algorithm>
+
+1732186596 source:d:\low_field_mri\auto_measure_fid_freq\picoscope-main\logger.cpp
+	"logger.hpp"
+
+1732184836 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\logger.hpp
+	<chrono>
+	<ctime>
+	<fstream>
+	<iostream>
+	<string>
+	<stdlib.h>
+	"picofunctions.h"
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\picofunctions.h
+	<stdio.h>
+	<algorithm>
+	<chrono>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<thread>
+	<tuple>
+	<vector>
+	"pugixml.hpp"
+	<conio.h>
+	"windows.h"
+	<stdio.h>
+	<chrono>
+	<cstring>
+	<thread>
+	"libps4000a/PicoStatus.h"
+	"libps4000a/ps4000aApi.h"
+	"pugiconfig.hpp"
+	"pugixml.hpp"
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\pugiconfig.hpp
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\libps4000a\picostatus.h
+	<stdint.h>
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\inc\picodeviceenums.h
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\inc\picoconnectprobes.h
+	<stdint.h>
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\inc\picostatus.h
+	<stdint.h>
+
+1732145701 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1732277887 source:d:\low_field_mri\auto_measure_fid_freq\picoscope-main\main.cpp
+	<memory>
+	"logger.hpp"
+	"picofunctions.h"
+	"parser.hpp"
+
+1732277791 d:\low_field_mri\auto_measure_fid_freq\picoscope-main\parser.hpp
+	<vector>
+	<string>
+	<algorithm>
+
+1732277879 source:d:\low_field_mri\auto_measure_fid_freq\picoscope-main\parser.cpp
+	"parser.hpp"
+
+1733991818 source:d:\low_field_mri\auto_measure_fid_freq\picoscope-main\picofunctions.cpp
+	"picofunctions.h"
+
+1732145701 source:d:\low_field_mri\auto_measure_fid_freq\picoscope-main\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+
+1732186596 source:c:\lf_mri\auto_measure_fid_freq\picoscope-main\logger.cpp
+	"logger.hpp"
+
+1732184836 c:\lf_mri\auto_measure_fid_freq\picoscope-main\logger.hpp
+	<chrono>
+	<ctime>
+	<fstream>
+	<iostream>
+	<string>
+	<stdlib.h>
+	"picofunctions.h"
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\picofunctions.h
+	<stdio.h>
+	<algorithm>
+	<chrono>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<thread>
+	<tuple>
+	<vector>
+	"pugixml.hpp"
+	<conio.h>
+	"windows.h"
+	<stdio.h>
+	<chrono>
+	<cstring>
+	<thread>
+	"libps4000a/PicoStatus.h"
+	"libps4000a/ps4000aApi.h"
+	"pugiconfig.hpp"
+	"pugixml.hpp"
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\pugiconfig.hpp
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\libps4000a\picostatus.h
+	<stdint.h>
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\inc\picodeviceenums.h
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\inc\picoconnectprobes.h
+	<stdint.h>
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\inc\picostatus.h
+	<stdint.h>
+
+1732145701 c:\lf_mri\auto_measure_fid_freq\picoscope-main\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1732277879 source:c:\lf_mri\auto_measure_fid_freq\picoscope-main\parser.cpp
+	"parser.hpp"
+
+1732277791 c:\lf_mri\auto_measure_fid_freq\picoscope-main\parser.hpp
+	<vector>
+	<string>
+	<algorithm>
+
+1733991818 source:c:\lf_mri\auto_measure_fid_freq\picoscope-main\picofunctions.cpp
+	"picofunctions.h"
+
+1732145701 source:c:\lf_mri\auto_measure_fid_freq\picoscope-main\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+
+1735046667 source:c:\lf_mri\auto_measure_fid_freq\picoscope-main\main.cpp
+	<memory>
+	"logger.hpp"
+	"picofunctions.h"
+	"parser.hpp"
+
+1732186598 source:e:\mrt_lowfield\mri_january\picoscope-main\logger.cpp
+	"logger.hpp"
+
+1732184838 e:\mrt_lowfield\mri_january\picoscope-main\logger.hpp
+	<chrono>
+	<ctime>
+	<fstream>
+	<iostream>
+	<string>
+	<stdlib.h>
+	"picofunctions.h"
+
+1736851082 e:\mrt_lowfield\mri_january\picoscope-main\picofunctions.h
+	<stdio.h>
+	<algorithm>
+	<chrono>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<thread>
+	<tuple>
+	<vector>
+	"pugixml.hpp"
+	<conio.h>
+	"windows.h"
+	<stdio.h>
+	<chrono>
+	<cstring>
+	<thread>
+	"libps4000a/PicoStatus.h"
+	"ps4000aApi.h"
+	"pugiconfig.hpp"
+	"pugixml.hpp"
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\pugiconfig.hpp
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\libps4000a\picostatus.h
+	<stdint.h>
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\inc\picodeviceenums.h
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\inc\picoconnectprobes.h
+	<stdint.h>
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\inc\picostatus.h
+	<stdint.h>
+
+1732145702 e:\mrt_lowfield\mri_january\picoscope-main\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1732277880 source:e:\mrt_lowfield\mri_january\picoscope-main\parser.cpp
+	"parser.hpp"
+
+1732277792 e:\mrt_lowfield\mri_january\picoscope-main\parser.hpp
+	<vector>
+	<string>
+	<algorithm>
+
+1733991820 source:e:\mrt_lowfield\mri_january\picoscope-main\picofunctions.cpp
+	"picofunctions.h"
+
+1732145702 source:e:\mrt_lowfield\mri_january\picoscope-main\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+
+1736850873 source:e:\mrt_lowfield\mri_january\picoscope-main\main.cpp
+	<memory>
+	"logger.hpp"
+	"picofunctions.h"
+	"parser.hpp"
+
+1732186598 source:c:\lf_mri\mri_january\picoscope-main\logger.cpp
+	"logger.hpp"
+
+1732184838 c:\lf_mri\mri_january\picoscope-main\logger.hpp
+	<chrono>
+	<ctime>
+	<fstream>
+	<iostream>
+	<string>
+	<stdlib.h>
+	"picofunctions.h"
+
+1737130229 c:\lf_mri\mri_january\picoscope-main\picofunctions.h
+	<stdio.h>
+	<algorithm>
+	<chrono>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<thread>
+	<tuple>
+	<vector>
+	"pugixml.hpp"
+	<conio.h>
+	"windows.h"
+	<stdio.h>
+	<chrono>
+	<cstring>
+	<thread>
+	"libps4000a/PicoStatus.h"
+	"libps4000a/ps4000aApi.h"
+	"pugiconfig.hpp"
+	"pugixml.hpp"
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\pugiconfig.hpp
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\libps4000a\picostatus.h
+	<stdint.h>
+
+1737139988 source:c:\lf_mri\mri_january\picoscope-main\main.cpp
+	<memory>
+	<windows.h>
+	"logger.hpp"
+	"simplelogger.hpp"
+	"picofunctions.h"
+	"parser.hpp"
+
+1732277792 c:\lf_mri\mri_january\picoscope-main\parser.hpp
+	<vector>
+	<string>
+	<algorithm>
+
+1732277880 source:c:\lf_mri\mri_january\picoscope-main\parser.cpp
+	"parser.hpp"
+
+1737133332 source:c:\lf_mri\mri_january\picoscope-main\picofunctions.cpp
+	"picofunctions.h"
+
+1732145702 source:c:\lf_mri\mri_january\picoscope-main\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\inc\picodeviceenums.h
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\inc\picoconnectprobes.h
+	<stdint.h>
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\inc\picostatus.h
+	<stdint.h>
+
+1732145702 c:\lf_mri\mri_january\picoscope-main\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1736725606 source:c:\lf_mri\mri_january\picoscope-main\simplelogger.cpp
+	"simplelogger.hpp"
+
+1736707941 c:\lf_mri\mri_january\picoscope-main\simplelogger.hpp
+	<iostream>
+	<iomanip>
+	<chrono>
+	<ctime>
+	<sstream>
+	<fstream>
+	<sstream>
+	<fstream>
+	<windows.h>
+	<winbase.h>
+	<sys/stat.h>
+	<unistd.h>
+
+1732186598 source:e:\mri_january\picoscope-main\logger.cpp
+	"logger.hpp"
+
+1732184838 e:\mri_january\picoscope-main\logger.hpp
+	<chrono>
+	<ctime>
+	<fstream>
+	<iostream>
+	<string>
+	<stdlib.h>
+	"picofunctions.h"
+
+1737130230 e:\mri_january\picoscope-main\picofunctions.h
+	<stdio.h>
+	<algorithm>
+	<chrono>
+	<fstream>
+	<iomanip>
+	<iostream>
+	<thread>
+	<tuple>
+	<vector>
+	"pugixml.hpp"
+	<conio.h>
+	"windows.h"
+	<stdio.h>
+	<chrono>
+	<cstring>
+	<thread>
+	"libps4000a/PicoStatus.h"
+	"libps4000a/ps4000aApi.h"
+	"pugiconfig.hpp"
+	"pugixml.hpp"
+
+1732145702 e:\mri_january\picoscope-main\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1732145702 e:\mri_january\picoscope-main\pugiconfig.hpp
+
+1732145702 e:\mri_january\picoscope-main\libps4000a\picostatus.h
+	<stdint.h>
+
+1732145702 e:\mri_january\picoscope-main\libps4000a\ps4000aapi.h
+	<stdint.h>
+	"PicoStatus.h"
+	"../inc/PicoCallback.h"
+	"../inc/PicoConnectProbes.h"
+	"../inc/PicoVersion.h"
+
+1732145702 e:\mri_january\picoscope-main\inc\picocallback.h
+	<stdint.h>
+	"PicoDeviceEnums.h"
+	"PicoDeviceStructs.h"
+
+1732145702 e:\mri_january\picoscope-main\inc\picodeviceenums.h
+
+1732145702 e:\mri_january\picoscope-main\inc\picodevicestructs.h
+	<stdint.h>
+	"PicoConnectProbes.h"
+	"PicoDeviceEnums.h"
+	"PicoStatus.h"
+
+1732145702 e:\mri_january\picoscope-main\inc\picoconnectprobes.h
+	<stdint.h>
+
+1732145702 e:\mri_january\picoscope-main\inc\picostatus.h
+	<stdint.h>
+
+1732145702 e:\mri_january\picoscope-main\inc\picoversion.h
+	<stdint.h>
+	"PicoStatus.h"
+
+1732277880 source:e:\mri_january\picoscope-main\parser.cpp
+	"parser.hpp"
+
+1732277792 e:\mri_january\picoscope-main\parser.hpp
+	<vector>
+	<string>
+	<algorithm>
+
+1737133334 source:e:\mri_january\picoscope-main\picofunctions.cpp
+	"picofunctions.h"
+
+1732145702 source:e:\mri_january\picoscope-main\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<limits.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<sys/stat.h>
+	<stdint.h>
+
+1737996272 source:e:\mri_january\picoscope-main\main.cpp
+	<memory>
+	<windows.h>
+	"logger.hpp"
+	"simplelogger.hpp"
+	"picofunctions.h"
+	"parser.hpp"
+
+1736707942 e:\mri_january\picoscope-main\simplelogger.hpp
+	<iostream>
+	<iomanip>
+	<chrono>
+	<ctime>
+	<sstream>
+	<fstream>
+	<sstream>
+	<fstream>
+	<windows.h>
+	<winbase.h>
+	<sys/stat.h>
+	<unistd.h>
+
+1736725608 source:e:\mri_january\picoscope-main\simplelogger.cpp
+	"simplelogger.hpp"
 

@@ -2,8 +2,7 @@
 
 Logger::Logger(const std::string& filename, bool output_format) : output_format(output_format)
 {
-    if (!output_format)
-    {
+    if(!output_format) {
         log_file.open(filename, std::ios::app);
 
         if (!log_file.is_open())
@@ -55,15 +54,15 @@ Logger::log(const std::string& level, const std::string& message)
 {
     time_t now = time(0);
     char* dt = ctime(&now);
-    if (output_format == true)
-    {
-        printf("%s [%s]: %s\n", dt, level.c_str(), message.c_str());
-    }
-    else
-    {
-        if (log_file.is_open())
-        {
+    if(output_format == true) {
+        printf( "%s [%s]: %s\n", dt,level.c_str(),message.c_str());
+    } else {
+        if (log_file.is_open()) {
             log_file << dt << "[" << level << "]: " << message << std::endl;
         }
     }
+
+
+
+
 }

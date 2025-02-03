@@ -229,12 +229,33 @@ create_channel(const int32_t& num_of_channels)
     return channels;
 }
 
-void
-writing_data(const std::vector<int16_t*>& vec_buffer, const int32_t bufferLth,
-             const int32_t NUMBER_OF_CHANNELS)
+void writing_data(const std::vector<int16_t*>& vec_buffer, const int32_t bufferLth,
+                  const int32_t NUMBER_OF_CHANNELS)
 {
-    std::ofstream testfile;
-    testfile.open("test_pico.csv", std::ios::app);
+    // Получаем текущее время
+    std::time_t now = std::time(nullptr);
+    std::tm* now_tm = std::localtime(&now);
+
+    #ifdef _WIN32
+    CreateDirectoryA("output", NULL);
+    #endif // _WIN32
+
+    // Формируем имя файла с текущей датой и временем
+    std::stringstream filename;
+
+    #ifdef _WIN32
+    filename << "output\\";
+    #endif // _WIN32
+
+    filename << "data_"
+             << std::put_time(now_tm, "%Y-%m-%d_%H-%M-%S")
+             << ".csv";
+
+
+
+    // Открываем новый файл для записи (не для дозаписи)
+    std::ofstream testfile(filename.str());
+
     if (testfile.is_open())
     {
         for (int i = 0; i < bufferLth; ++i)
@@ -246,8 +267,14 @@ writing_data(const std::vector<int16_t*>& vec_buffer, const int32_t bufferLth,
 
             testfile << "\n";
         }
+
+        testfile.close();
     }
-    testfile.close();
+    else
+    {
+        // Обработка ошибки открытия файла, если необходимо
+       std::cerr << "Unable to open file to write data" ;
+    }
 }
 
 void
